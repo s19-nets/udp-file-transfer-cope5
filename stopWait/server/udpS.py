@@ -26,20 +26,8 @@ print("binding datagram socket to %s" % repr(serverAddr))
 serverSocket = socket(AF_INET, SOCK_DGRAM)
 serverSocket.bind(serverAddr)
 print("ready to receive")
-
 while 1:
-    data, clientAddrPort = serverSocket.recvfrom(2048)
-    print("from %s: rec'd '%s'" % (repr(clientAddrPort), data))
-    data.strip()
-    f = open(data.strip(),'wb')
-    data,addr = serverSocket.recvfrom(2048)
-    try:
-        while(data):
-            f.write(data)
-            serverSocket.settimeout(2)
-            data,addr = serverSocket.recvfrom(2048)
-    except timeout:
-        f.close()
-        serverSocket.close()
-        print ('File Downloaded')
-    
+    message, clientAddrPort = serverSocket.recvfrom(2048)
+    print("from %s: rec'd '%s'" % (repr(clientAddrPort), message))
+    modifiedMessage = message.upper()
+    serverSocket.sendto(modifiedMessage, clientAddrPort)

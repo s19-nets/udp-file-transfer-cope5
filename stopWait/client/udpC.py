@@ -24,15 +24,15 @@ except:
     usage()
 
 clientSocket = socket(AF_INET, SOCK_DGRAM)
-
-file = 'data'
-clientSocket.sendto(file.encode(), serverAddr)
-
-f = open(file,"r")
-data = f.read(100)
-while (data):
-    if(clientSocket.sendto(data,serverAddr)):
-        print ("sending ...")
-        data = f.read(100)
-clientSocket.close()
-f.close()
+clientSocket.settimeout(0.5)
+message = 'WHAT DO I DO'
+clientSocket.sendto(message.encode(), serverAddr)     
+acknowledged = False
+#spam
+while not acknowledged:
+    try:
+        ACK, address = clientSocket.recvfrom(2048)
+        acknowledged = True
+    except timeout:
+        clientSocket.sendto(message, serverAddr)
+print(ACK)
