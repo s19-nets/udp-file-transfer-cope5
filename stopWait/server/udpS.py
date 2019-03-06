@@ -33,14 +33,13 @@ while 1:
     data.strip()
     f = open(data.strip(),'wb')
     data,addr = serverSocket.recvfrom(2048)
-
-try:
-    while(data):
-        f.write(data)
-        serverSocket.settimeout(2)
-        data,addr = serverSocket.recvfrom(2048)
-except timeout:
-    f.close()
-    serverSocket.close()
-    print ('File Downloaded')
+    try:
+        while(data):
+            f.write(data)
+            serverSocket.settimeout(2)
+            data,addr = serverSocket.recvfrom(2048)
+    except timeout:
+        f.close()
+        serverSocket.close()
+        print ('File Downloaded')
     
