@@ -34,5 +34,5 @@ while not acknowledged:
         ACK, address = clientSocket.recvfrom(2048)
         acknowledged = True
     except timeout:
-        clientSocket.sendto(message, serverAddr)
+        clientSocket.sendto(message.encode(), serverAddr)
 print(ACK)
